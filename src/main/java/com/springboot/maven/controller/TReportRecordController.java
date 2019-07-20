@@ -3,6 +3,8 @@ package  com.springboot.maven.controller;
 
 import com.springboot.maven.service.ITReportRecordService;
 import com.springboot.maven.service.utlis.commensUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -23,7 +25,9 @@ import java.util.Map;
 public class TReportRecordController {
     @Autowired
     private ITReportRecordService itReportRecordService;
-
+    private static final String appkey  = "ding9p7vzgvgrx3tvd6a";
+    private static final String appsecret= "nGKknhri4XwBjcLxkZFacafx10_k67dUT6B09kJF50xLBrwb9AULlVQxcI4L0W3W";
+    private static final String AgentId = "276194902";
 
     /**
      * 获取子公司每天所有用户日志记录
@@ -31,8 +35,8 @@ public class TReportRecordController {
      * @return
      */
     @GetMapping("/getReport")
-    public List<Map<String, Object>> checkin11() {
-        return itReportRecordService.getAllUserReportByCompany(commensUtil.token());
+    public List<Map<String, Object>> getAllUserReportByCompany() {
+        return itReportRecordService.getAllUserReportByCompany(commensUtil.token(appkey,appsecret));
     }
 
     /**
@@ -42,26 +46,11 @@ public class TReportRecordController {
      */
     @GetMapping("/importReport")
     public Map<String,Object> importEveryDayReportData() {
-        return itReportRecordService.importEveryDayReportData(commensUtil.token());
+        return itReportRecordService.importEveryDayReportData(commensUtil.token(appkey,appsecret));
     }
 
 
-    /**
-     * @Title:获取企业的所有模板
-     * @param:
-     * userid 可选，不传表示获取企业的所有模板
-     * offset 分页游标，从0开始。根据返回结果里的next_cursor是否为空来判断是否还有下一页，且再次调用时offset设置成next_cursor的值
-     * size 分页查询的每页大小，最大100
-     * @return  List<Map<String, Object>>
-     * @author: FSS
-     */
-    @GetMapping("/getReportTemplate")
-    public List<Map<String, Object>> importEveryDayReportData() {
-        return itReportRecordService.reportTemplateList(null,commensUtil.token());
-    }
-    /**
-     * @Title:导入企业的所有模板
-     */
+
 
 }
 

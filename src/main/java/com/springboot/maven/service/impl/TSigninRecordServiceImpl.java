@@ -54,7 +54,7 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
      * @author: FSS
      */
     @Override
-    public Map<String, Object> checkinUser(String useridList , long duration , long pageNo , long size) {
+    public Map<String, Object> checkinUser(String useridList , long duration , long pageNo , long size ,String token) {
         DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/topapi/checkin/record/get");
         OapiCheckinRecordGetRequest request = new OapiCheckinRecordGetRequest();
         request.setStartTime(System.currentTimeMillis()- TimeUnit.DAYS.toMillis(duration));
@@ -63,7 +63,7 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
         request.setCursor(pageNo);
         request.setUseridList(useridList);
         try {
-            OapiCheckinRecordGetResponse response = client.execute(request, commensUtil.token());
+            OapiCheckinRecordGetResponse response = client.execute(request, token);
             Map<String, Object> rsmap = stringToMap(response.getBody());
             if(rsmap!=null){
                 return rsmap;
@@ -80,11 +80,11 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
      * @return
      */
 
-    public List<Map<String,Object>> checkin(long  size ) {
+    public List<Map<String,Object>> checkin(long  size , String token) {
         try {
             List<Map<String,Object>> allCheckDataList = new ArrayList<>();
             List<Map<String,Object>> checkDataList ;
-            Set<String> allUserIdSet = commensUtil.allUserIdByAppkey(commensUtil.token());
+            Set<String> allUserIdSet = commensUtil.allUserIdByAppkey(token);
             if(allUserIdSet!=null&&allUserIdSet.size()>0){
                 //进行用户和分页批处理
                 Iterator<String> it = allUserIdSet.iterator();
@@ -95,7 +95,7 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
                     String str = it.next();
                     boolean k = true;
                     while (k) {
-                        checkinrsmap = checkinUser(str,1,pageNo,size);//获取用户签到记录列表
+                        checkinrsmap = checkinUser(str,1,pageNo,size,token);//获取用户签到记录列表
                         if(checkinrsmap!=null&&checkinrsmap.containsKey("errcode")&&Integer.valueOf(checkinrsmap.get("errcode").toString()) == 0) {
                             checkresultmap = (Map) checkinrsmap.get("result");
                             if(checkresultmap.containsKey("page_list")&&checkresultmap.get("page_list")!=null){

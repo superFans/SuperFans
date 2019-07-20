@@ -6,6 +6,7 @@ package com.springboot.maven.service.utlis;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author 张鹏
+ * @authorfans
  * @description 判断map及其key是否存在，以及其key是否为空和null
  * @description 判断list及其value是否为空和null
  * @description 判断json及其key是否存在，以及其key是否为空和null

@@ -26,14 +26,14 @@ public interface ITSigninRecordService extends IService<TSigninRecord> {
      * @return  List<Map<String, Object>>
      * @author: FSS
      */
-    Map<String, Object> checkinUser(String useridList , long duration , long pageNo , long size);
+    Map<String, Object> checkinUser(String useridList , long duration , long pageNo , long size , String token);
 
 
     /**
      * 获取子公司每天所有用户签到记录
      * @return
      */
-    List<Map<String, Object>> checkin(long size);
+    List<Map<String, Object>> checkin(long size , String token);
 
     /**
      * 导入签到数据

@@ -1,4 +1,4 @@
-package name.dancer.entity;
+package com.springboot.maven.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;

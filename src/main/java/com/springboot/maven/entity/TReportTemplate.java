@@ -1,5 +1,6 @@
 package com.springboot.maven.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class TReportTemplate extends Model<TReportTemplate> {
     /**
      * 编号
      */
+    @TableId("数据库字段名称")
     private String id;
 
     /**

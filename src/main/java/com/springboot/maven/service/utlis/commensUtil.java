@@ -34,7 +34,7 @@ public class commensUtil {
             return null;
         }
     }
-    public static String token  (){
+    public static String token  (String appkey , String appsecret){
         DefaultDingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/gettoken");
         OapiGettokenRequest request = new OapiGettokenRequest();
         request.setAppkey(appkey);
@@ -45,6 +45,7 @@ public class commensUtil {
             response = client.execute(request);
         } catch (ApiException e) {
             e.printStackTrace();
+            return null;
         }
         return response.getAccessToken();
     }
@@ -58,15 +59,20 @@ public class commensUtil {
             Set<String> allUserIdSet = new HashSet<>();
             if (dep.containsKey("department") && dep.get("department") != null) {
                 List<Map<String, Object>> listdep = (List) dep.get("department");
-                for (int i = 0; i < listdep.size(); i++) {
-                    Map<String, Object> listmap = listdep.get(i);
-                    if (listmap != null && listmap.containsKey("id") && listmap.get("id") != null) {
-                        String id = String.valueOf(listmap.get("id"));//部门ID
-                        List<String> userIdListByDep = allUserIdByDeptId(id);//获取部门用户userid列表
-                        if (userIdListByDep != null && userIdListByDep.size() > 0) {
-                            allUserIdSet.addAll(userIdListByDep);
+                try {
+                    for (int i = 0; i < listdep.size(); i++) {
+                        Map<String, Object> listmap = listdep.get(i);
+                        if (listmap != null && listmap.containsKey("id") && listmap.get("id") != null) {
+                            String id = String.valueOf(listmap.get("id"));//部门ID
+                            List<String> userIdListByDep = allUserIdByDeptId(id,token);//获取部门用户userid列表
+                            if (userIdListByDep != null && userIdListByDep.size() > 0) {
+                                allUserIdSet.addAll(userIdListByDep);
+                            }
                         }
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return null;
                 }
             }
             return  allUserIdSet;
@@ -90,20 +96,20 @@ public class commensUtil {
             return rsmap;
         } catch (ApiException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
     /**
      * 获取部门用户userid列表
      * @return
      */
-    public static List<String>  allUserIdByDeptId(String deptId ) {
+    public static List<String>  allUserIdByDeptId(String deptId , String token) {
         DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/user/getDeptMember");
         OapiUserGetDeptMemberRequest req = new OapiUserGetDeptMemberRequest();
         req.setDeptId(deptId);
         req.setHttpMethod("GET");
         try {
-            OapiUserGetDeptMemberResponse rsp = client.execute(req, token());
+            OapiUserGetDeptMemberResponse rsp = client.execute(req, token);
             Map<String, Object> rsmap = stringToMap(rsp.getBody());
             if(rsmap.containsKey("userIds")&&rsmap.get("userIds")!=null){
                 List<String> userList = (List) rsmap.get("userIds");
@@ -111,6 +117,7 @@ public class commensUtil {
             }
         } catch (ApiException e) {
             e.printStackTrace();
+            return null;
         }
         return null;
     }
@@ -118,5 +125,9 @@ public class commensUtil {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(date);
         return dateString;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(allUserIdByAppkey("a5fff405f35c3d75b7f75031e7eaad8a"));
     }
 }

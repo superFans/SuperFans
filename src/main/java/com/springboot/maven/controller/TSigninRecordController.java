@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.springboot.maven.entity.TSigninRecord;
 import com.springboot.maven.service.ITReportRecordService;
 import com.springboot.maven.service.ITSigninRecordService;
+import com.springboot.maven.service.utlis.commensUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,13 +33,13 @@ public class TSigninRecordController {
     @Autowired
     ITReportRecordService itReportRecordService;
 
-
+    private static final String appkey  = "ding9p7vzgvgrx3tvd6a";
+    private static final String appsecret= "nGKknhri4XwBjcLxkZFacafx10_k67dUT6B09kJF50xLBrwb9AULlVQxcI4L0W3W";
+    private static final String AgentId = "276194902";
     @GetMapping
-    public JSONObject testEnum() {
+    public String testEnum() {
        /* List<TSigninRecord> users =  itSigninRecordService.list();*/
-        JSONObject result = new JSONObject();
-        result.put("users", "");
-        return result;
+        return "sdfafasf";
     }
     /**
      * 签到
@@ -47,17 +48,9 @@ public class TSigninRecordController {
      */
     @GetMapping("/checkin")
     public List<Map<String,Object>> checkin11() {
-        return itSigninRecordService.checkin(5);
+        return itSigninRecordService.checkin(5, commensUtil.token(appkey,appsecret));
     }
 
-    /**
-     * 日志
-     * size :每页条数分页查询的每页大小，最大20
-     * @return
-     */
-    @GetMapping("/log")
-    public List<Map<String,Object>>  log() {
-        return itReportRecordService.getAllUserLoggingByCompany(2);
-    }
+
 }
 

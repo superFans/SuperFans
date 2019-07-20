@@ -1,6 +1,6 @@
 package com.springboot.maven.service;
 
-import name.dancer.entity.TExamineHoliday;
+import com.springboot.maven.entity.TExamineHoliday;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

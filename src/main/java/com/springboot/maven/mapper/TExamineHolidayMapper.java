@@ -1,6 +1,6 @@
 package com.springboot.maven.mapper;
 
-import name.dancer.entity.TExamineHoliday;
+import com.springboot.maven.entity.TExamineHoliday;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

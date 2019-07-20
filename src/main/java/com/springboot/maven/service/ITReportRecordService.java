@@ -1,7 +1,7 @@
 package com.springboot.maven.service;
 
-import com.springboot.maven.entity.TReportRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.springboot.maven.entity.TReportRecord;
 
 import java.util.List;
 import java.util.Map;
@@ -30,15 +30,6 @@ public interface ITReportRecordService extends IService<TReportRecord> {
      */
     public Map<String, Object> importEveryDayReportData(String token);
 
-    /**
-     * @Title:获取企业的所有模板
-     * @param:
-     * userid 可选，不传表示获取企业的所有模板
-     * offset 分页游标，从0开始。根据返回结果里的next_cursor是否为空来判断是否还有下一页，且再次调用时offset设置成next_cursor的值
-     * size 分页查询的每页大小，最大100
-     * @return  List<Map<String, Object>>
-     * @author: FSS
-     */
-    public List<Map<String, Object>> reportTemplateList(String userid , String token)
+
 
 }

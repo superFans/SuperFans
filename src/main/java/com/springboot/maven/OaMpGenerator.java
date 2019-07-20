@@ -1,20 +1,9 @@
 package com.springboot.maven;
 
-import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 public class OaMpGenerator {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {}/*{
         AutoGenerator mpg = new AutoGenerator();
 
         // 设置数据源
@@ -56,7 +45,7 @@ public class OaMpGenerator {
         // 策略配置
         mpg.setStrategy(new StrategyConfig()
                 // 需要生成的表
-               /* .setInclude("t_action_score_record")*/
+               *//* .setInclude("t_action_score_record")*//*
                 // 实体类使用Lombok
                 .setEntityLombokModel(true)
                 // 表名生成策略,下划线转驼峰
@@ -99,6 +88,6 @@ public class OaMpGenerator {
                 })));
 
         mpg.execute();
-    }
+    }*/
 
 }

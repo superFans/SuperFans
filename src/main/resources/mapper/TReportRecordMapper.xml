@@ -3,7 +3,7 @@
 <mapper namespace="com.springboot.maven.mapper.TReportRecordMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.springboot.maven.TReportRecord">
+    <resultMap id="BaseResultMap" type="com.springboot.maven.entity.TReportRecord">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
         <result column="template_id" property="templateId" />
