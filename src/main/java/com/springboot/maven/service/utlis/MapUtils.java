@@ -47,23 +47,25 @@ public class MapUtils extends HashMap<String, Object> {
 
         boolean flag = true;
 
-        if (map == null)
+        if (map == null) {
             return flag;
-
-        if (map.isEmpty() || map.size() == 0)
+        }
+        if (map.isEmpty() || map.size() == 0) {
             return flag;
-
-        if (keys == null || keys.equals(""))
+        }
+        if (keys == null || keys.equals("")) {
             return flag;
-
-        for (String key : keys)
-            if (StringUtils.isAnyBlank(key) && !map.containsKey(key))
+        }
+        for (String key : keys) {
+            if (StringUtils.isAnyBlank(key) && !map.containsKey(key)) {
                 return flag;
-
-        for (String key : keys)
-            if (map.get(key) == null || map.get(key).equals("null") || map.get(key).equals(""))
+            }
+        }
+        for (String key : keys) {
+            if (map.get(key) == null || map.get(key).equals("null") || map.get(key).equals("")) {
                 return flag;
-
+            }
+        }
         return flag = false;
 
     }
@@ -85,23 +87,25 @@ public class MapUtils extends HashMap<String, Object> {
 
         boolean flag = true;
 
-        if (jsonObject == null)
+        if (jsonObject == null) {
             return flag;
-
-        if (jsonObject.isEmpty() || jsonObject.size() == 0)
+        }
+        if (jsonObject.isEmpty() || jsonObject.size() == 0) {
             return flag;
-
-        if (keys == null || keys.equals(""))
+        }
+        if (keys == null || keys.equals("")) {
             return flag;
-
-        for (String key : keys)
-            if (!jsonObject.containsKey(key))
+        }
+        for (String key : keys) {
+            if (!jsonObject.containsKey(key)) {
                 return flag;
-
-        for (String key : keys)
-            if (jsonObject.get(key) == null || jsonObject.get(key).equals("null") || jsonObject.get(key).equals(""))
+            }
+        }
+        for (String key : keys) {
+            if (jsonObject.get(key) == null || jsonObject.get(key).equals("null") || jsonObject.get(key).equals("")) {
                 return flag;
-
+            }
+        }
         return flag = false;
 
     }
@@ -120,15 +124,15 @@ public class MapUtils extends HashMap<String, Object> {
         boolean flag = true;
         Object object = null;
 
-        if (list == null)
+        if (list == null) {
             return flag;
-
-        if (list.isEmpty() || list.size() == 0)
+        }
+        if (list.isEmpty() || list.size() == 0) {
             return flag;
-
-        if (list.contains(object))
+        }
+        if (list.contains(object)) {
             return flag;
-
+        }
         return flag = false;
 
     }
@@ -146,12 +150,12 @@ public class MapUtils extends HashMap<String, Object> {
 
         boolean flag = true;
 
-        if (is == null)
+        if (is == null) {
             return flag;
-
-        if (is.length == 0)
+        }
+        if (is.length == 0) {
             return flag;
-
+        }
         for (String i : is) {
             if (StringUtils.isAnyBlank(i)) {
                 return flag;
@@ -167,10 +171,12 @@ public class MapUtils extends HashMap<String, Object> {
 
     public static boolean isStringNotNull(String... is) {
         boolean flag = false;
-        if (is == null)
+        if (is == null) {
             return flag;
-        if (is.length == 0)
+        }
+        if (is.length == 0) {
             return flag;
+        }
         for (String i : is) {
             if (StringUtils.isAnyBlank(i)) {
                 return flag;
@@ -264,9 +270,9 @@ public class MapUtils extends HashMap<String, Object> {
     }
 
     public static Object mapToObject(Map<String, Object> map, Class<?> beanClass) throws Exception {
-        if (map == null)
+        if (map == null) {
             return null;
-
+        }
         Object obj = beanClass.newInstance();
 
         BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
@@ -282,9 +288,9 @@ public class MapUtils extends HashMap<String, Object> {
     }
 
     public static Map<String, Object> objectToMap(Object obj) throws Exception {
-        if (obj == null)
+        if (obj == null) {
             return null;
-
+        }
         Map<String, Object> map = new HashMap<String, Object>();
 
         BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());

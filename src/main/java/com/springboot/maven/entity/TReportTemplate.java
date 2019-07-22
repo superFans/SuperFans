@@ -25,7 +25,6 @@ public class TReportTemplate extends Model<TReportTemplate> {
     /**
      * 编号
      */
-    @TableId("数据库字段名称")
     private String id;
 
     /**
@@ -46,7 +45,7 @@ public class TReportTemplate extends Model<TReportTemplate> {
     /**
      * 各个公司的同一种模板，比如"门店总日报"group是相同的，之间的规则可以复制
      */
-    private String group;
+    private String templateGroup;
 
     /**
      * 创建时间

@@ -33,12 +33,12 @@ public interface ITSigninRecordService extends IService<TSigninRecord> {
      * 获取子公司每天所有用户签到记录
      * @return
      */
-    List<Map<String, Object>> checkin(long size , String token);
+    List<TSigninRecord> checkin(long size , String token);
 
     /**
      * 导入签到数据
      *
      * @return
      */
-    Map<String,Object> importEveryDayCheckinData(List<Map<String, Object>> list);
+    Map<String,Object> importEveryDayCheckinData(String token);
 }

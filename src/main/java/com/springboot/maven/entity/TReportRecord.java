@@ -42,6 +42,18 @@ public class TReportRecord extends Model<TReportRecord> {
     private String content;
 
     /**
+     * 状态
+     */
+    private String status;
+
+    /**
+     * 不合格的原因
+     */
+    private String unqualifiedReason;
+
+    private Long reportTime;
+
+    /**
      * 创建时间
      */
     private Long createTime;

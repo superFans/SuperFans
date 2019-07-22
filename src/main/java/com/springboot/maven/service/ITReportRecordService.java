@@ -30,6 +30,14 @@ public interface ITReportRecordService extends IService<TReportRecord> {
      */
     public Map<String, Object> importEveryDayReportData(String token);
 
+    /**
+     * @return Object
+     * @Title:获取日志统计数据
+     * @param: report_id 日志id
+     * 该接口用于获取日志的已读人数、评论条数、评论人数、点赞人数。
+     * @author: FSS
+     */
+    public Map<String, Object> statistics(String report_id, String token);
 
 
 }

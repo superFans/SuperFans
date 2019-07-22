@@ -8,6 +8,9 @@
         <result column="user_id" property="userId" />
         <result column="template_id" property="templateId" />
         <result column="content" property="content" />
+        <result column="status" property="status" />
+        <result column="unqualified_reason" property="unqualifiedReason" />
+        <result column="report_time" property="reportTime" />
         <result column="create_time" property="createTime" />
         <result column="modify_time" property="modifyTime" />
         <result column="deleted" property="deleted" />
@@ -15,7 +18,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, template_id, content, create_time, modify_time, deleted
+                id, user_id, template_id, content, status, unqualified_reason, report_time, create_time, modify_time, deleted
     </sql>
 
 </mapper>

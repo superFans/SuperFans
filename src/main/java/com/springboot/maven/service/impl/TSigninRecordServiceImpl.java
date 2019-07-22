@@ -10,12 +10,14 @@ import com.dingtalk.api.response.OapiCheckinRecordGetResponse;
 import com.springboot.maven.entity.TSigninRecord;
 import com.springboot.maven.mapper.TSigninRecordMapper;
 import com.springboot.maven.service.ITSigninRecordService;
+import com.springboot.maven.service.utlis.MapUtils;
 import com.springboot.maven.service.utlis.UUIDS;
 import com.springboot.maven.service.utlis.commensUtil;
 import com.taobao.api.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.From;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -79,31 +81,32 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
      * 获取子公司每天所有用户签到记录
      * @return
      */
-
-    public List<Map<String,Object>> checkin(long  size , String token) {
+    @Override
+    public List<TSigninRecord> checkin(long  size , String token) {
         try {
+            List<TSigninRecord> allCheckVoList = new ArrayList<>();
             List<Map<String,Object>> allCheckDataList = new ArrayList<>();
             List<Map<String,Object>> checkDataList ;
             Set<String> allUserIdSet = commensUtil.allUserIdByAppkey(token);
             if(allUserIdSet!=null&&allUserIdSet.size()>0){
                 //进行用户和分页批处理
                 Iterator<String> it = allUserIdSet.iterator();
-                Map<String, Object> checkinrsmap;
-                Map<String, Object> checkresultmap;
                 while (it.hasNext()) {
                     long  pageNo = 0 ;
                     String str = it.next();
                     boolean k = true;
                     while (k) {
-                        checkinrsmap = checkinUser(str,1,pageNo,size,token);//获取用户签到记录列表
-                        if(checkinrsmap!=null&&checkinrsmap.containsKey("errcode")&&Integer.valueOf(checkinrsmap.get("errcode").toString()) == 0) {
-                            checkresultmap = (Map) checkinrsmap.get("result");
-                            if(checkresultmap.containsKey("page_list")&&checkresultmap.get("page_list")!=null){
-                                checkDataList = (List) checkresultmap.get("page_list");
+                        //获取用户签到记录列表
+                        Map<String, Object>    checkMap = checkinUser(str,1,pageNo,size,token);
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"result")) {
+                            Map<String, Object>     resultMap = (Map) checkMap.get("result");
+                            if(!MapUtils.mapIsAnyBlank(resultMap,"page_list")){
+                                checkDataList = (List) resultMap.get("page_list");
                                 if (checkDataList != null && checkDataList.size() > 0) {
                                     allCheckDataList.addAll(checkDataList);
-                                    if(checkresultmap.containsKey("next_cursor")&&checkresultmap.get("next_cursor")!=null&&!"".equals(checkresultmap.get("next_cursor"))) {//下页有数据
-                                        pageNo = Long.parseLong(checkresultmap.get("next_cursor").toString());
+                                    //下页有数据
+                                    if(!MapUtils.mapIsAnyBlank(resultMap,"next_cursor")&&!"".equals(resultMap.get("next_cursor"))) {
+                                        pageNo = Long.parseLong(resultMap.get("next_cursor").toString());
                                     }else {
                                         k  = false;
                                     }
@@ -118,7 +121,47 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
                         }
                     }
                 }
-                return allCheckDataList;
+                //封装成实体类集合
+                if(allCheckDataList!=null&&allCheckDataList.size()>0){
+                    for (int i = 0; i < allCheckDataList.size(); i++) {
+                        TSigninRecord tsr = new TSigninRecord();
+                        String id  = UUIDS.getID();
+                        tsr.setId(id);
+                        tsr.setStatus("NEW");
+                        tsr.setDeleted(0);
+                        Map<String, Object> checkMap = allCheckDataList.get(i);
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"checkin_time")){
+                            tsr.setCheckinTime(Long.valueOf(String.valueOf(checkMap.get("checkin_time"))));
+                            tsr.setCreateTime(Long.valueOf(String.valueOf(checkMap.get("checkin_time"))));
+                        }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"detail_place")){
+                            tsr.setDetailPlace(String.valueOf(checkMap.get("detail_place")));
+                        }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"image_list")){
+                            tsr.setImageList(String.valueOf(checkMap.get("image_list")));
+                        }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"latitude")){
+                            tsr.setLatitude(String.valueOf(checkMap.get("latitude")));
+                        }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"longitude")){
+                            tsr.setLatitude(String.valueOf(checkMap.get("longitude")));
+                        }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"place")){
+                            tsr.setPlace(String.valueOf(checkMap.get("place")));
+                        }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"remark")){
+                            tsr.setRemark(String.valueOf(checkMap.get("remark")));
+                        }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"userid")){
+                            tsr.setUserId(String.valueOf(checkMap.get("userid")));
+                        }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"visit_user")){
+                            tsr.setVisitUser(String.valueOf(checkMap.get("visit_user")));
+                        }
+                        allCheckVoList.add(tsr);
+                    }
+                }
+                return allCheckVoList;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,15 +177,11 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
      * @return
      */
     @Override
-    public  Map<String,Object> importEveryDayCheckinData(List<Map<String,Object>> list){
-
+    public  Map<String,Object> importEveryDayCheckinData( String token){
+        List<TSigninRecord> list = checkin(100, token);
         if(list!=null&&list.size()>0){
-            for (int i = 0; i < list.size(); i++) {
-                Map<String, Object> checkMap = list.get(i);
-                String id  = UUIDS.getID();
-                checkMap.put("id", id);
-                TSigninRecord tsr = new TSigninRecord();
-                int  d =  tsigninrecordmapper.insert((TSigninRecord)checkMap);
+            for (TSigninRecord trt : list){
+                int  d =  tsigninrecordmapper.insert(trt);
                 if(d>0){
                     Map<String, Object> map = new HashMap<>();
                     map.put("status","ok");

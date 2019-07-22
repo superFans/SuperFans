@@ -47,10 +47,16 @@ public class TSigninRecordController {
      * @return
      */
     @GetMapping("/checkin")
-    public List<Map<String,Object>> checkin11() {
+    public List<TSigninRecord> checkin11() {
         return itSigninRecordService.checkin(5, commensUtil.token(appkey,appsecret));
     }
-
+    /**
+     * @Title:导入分公司下的所有签到记录
+     */
+    @GetMapping("/importSigninRecord")
+    public Map<String, Object> importreportTemplate() {
+        return itSigninRecordService.importEveryDayCheckinData(commensUtil.token(appkey,appsecret));
+    }
 
 }
 

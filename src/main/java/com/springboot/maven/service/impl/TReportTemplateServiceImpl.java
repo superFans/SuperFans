@@ -69,7 +69,8 @@ public class TReportTemplateServiceImpl extends ServiceImpl<TReportTemplateMappe
                             }else{
                                 isNotWhile = false;
                             }
-                            if(!MapUtils.mapIsAnyBlank(resultMap,"next_cursor")){//下页有数据
+                            //下页有数据
+                            if(!MapUtils.mapIsAnyBlank(resultMap,"next_cursor")){
                                 pageNo = Long.valueOf(String.valueOf(resultMap.get("next_cursor")));
                             }else{
                                 isNotWhile = false;
@@ -98,6 +99,9 @@ public class TReportTemplateServiceImpl extends ServiceImpl<TReportTemplateMappe
      */
     @Override
     public  Map<String,Object> importReportTemplateData(String token,String companyId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("code",1);
+        map.put("message","导入失败");
         List<Map<String,Object>> list = reportTemplateList(null,token);
         if(list!=null&&list.size()>0){
             try {
@@ -107,7 +111,8 @@ public class TReportTemplateServiceImpl extends ServiceImpl<TReportTemplateMappe
                     TReportTemplate tRt = new TReportTemplate();
                     tRt.setId(id);
                     tRt.setDeleted(0);
-                    if(!MapUtils.mapIsAnyBlank(reportMap,"report_code")){//重复code不insert
+                    //重复code不insert
+                    if(!MapUtils.mapIsAnyBlank(reportMap,"report_code")){
                         QueryWrapper<TReportTemplate> queryWrapper = new QueryWrapper<>();
                         queryWrapper.lambda().eq(TReportTemplate::getCode, reportMap.get("report_code"));
                         Integer count = treportTemplateMapper.selectCount(queryWrapper);
@@ -118,7 +123,9 @@ public class TReportTemplateServiceImpl extends ServiceImpl<TReportTemplateMappe
                     }
                     if(!MapUtils.mapIsAnyBlank(reportMap,"create_time")){
                         tRt.setCreateTime(Long.valueOf(String.valueOf(reportMap.get("create_time"))));
-                        tRt.setModifyTime(Long.valueOf(String.valueOf(reportMap.get("create_time"))));
+                        /*tRt.setModifyTime(Long.valueOf(String.valueOf(reportMap.get("create_time"))));*/
+                    }else {
+                        tRt.setCreateTime(Long.valueOf("1563767671000"));
                     }
                     if(!MapUtils.mapIsAnyBlank(reportMap,"name")){
                         tRt.setName(String.valueOf(reportMap.get("name")));
@@ -126,20 +133,20 @@ public class TReportTemplateServiceImpl extends ServiceImpl<TReportTemplateMappe
                     if(!StringUtils.isAllBlank(companyId)){
                         tRt.setCompanyId(companyId);
                     }
-                    /*if(!MapUtils.mapIsAnyBlank(reportMap,"")){
-                        tRt.setGroup();
-                    }*/
+                    tRt.setTemplateGroup("各个公司的同一种模板");
+
                     int d = treportTemplateMapper.insert(tRt);
                     if(d>0){
-                        Map<String, Object> map = new HashMap<>();
                         map.put("code",0);
+                        map.put("message","导入成功");
+                        return map;
                     }
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                return null;
+                return map;
             }
         }
-        return null;
+        return map;
     }
 }

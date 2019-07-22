@@ -1,5 +1,16 @@
 package com.springboot.maven;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
+import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class OaMpGenerator {
 
 
@@ -16,10 +27,10 @@ public class OaMpGenerator {
                 .setUrl("jdbc:postgresql://localhost:5432/mydata")
         );
 
-        // 全局配置
+        *//* 全局配置 *//*
         mpg.setGlobalConfig(new GlobalConfig()
                 // 输出目录
-                .setOutputDir("C:/tools/fans-springboot-maven/src/main/java/com/springboot/maven/oa")
+                .setOutputDir("C:/tools/fans-springboot-maven/src/main/java/com/springboot/maven")
                 // 是否覆盖
                 .setFileOverride(true)
                 // 开启AR模式
@@ -40,32 +51,31 @@ public class OaMpGenerator {
                 .setServiceName("I%sService")
                 .setServiceImplName("%sServiceImpl")
                 .setControllerName("%sController")
-        );
-
-        // 策略配置
-        mpg.setStrategy(new StrategyConfig()
+        ).setStrategy(new StrategyConfig()
                 // 需要生成的表
-               *//* .setInclude("t_action_score_record")*//*
+                .setInclude("t_action_score_record")
                 // 实体类使用Lombok
                 .setEntityLombokModel(true)
                 // 表名生成策略,下划线转驼峰
                 .setNaming(NamingStrategy.underline_to_camel)
         );
 
+        // 策略配置
+
         // 包配置
         mpg.setPackageInfo(new PackageConfig()
                 // 基本包路径
-                .setParent("name.dancer")
+                .setParent("com.springboot.maven")
                 // 设置Controller包名
-                .setController("controller")
+                //.setController("controller")
                 // 设置entity包名
                 .setEntity("entity")
                 // 设置Mapper包名
                 .setMapper("mapper")
                 // 设置Service包名
-                .setService("service")
+              //  .setService("service")
                 // 设置Service实现类包名
-                .setServiceImpl("service.impl")
+              //  .setServiceImpl("service.impl")
                 // 设置Mapper.xml包名
                 .setXml("mapper")
         );
