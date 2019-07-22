@@ -76,51 +76,68 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
         }
         return null;
     }
-
     /**
      * 获取子公司每天所有用户签到记录
+     * @return
+     */
+    public  List<Map<String,Object>> checkinListByUserList(long size , String token) {
+        try {
+            List<Map<String, Object>> allCheckDataList = new ArrayList<>();
+            List<Map<String, Object>> checkDataList;
+            Set<String> allUserIdSet = commensUtil.allUserIdByAppkey(token);
+            if (allUserIdSet != null && allUserIdSet.size() > 0) {
+                //进行用户和分页批处理
+                Iterator<String> it = allUserIdSet.iterator();
+                while (it.hasNext()) {
+                    long pageNo = 0;
+                    String str = it.next();
+                    boolean k = true;
+                    while (k) {
+                        //获取用户签到记录列表
+                        Map<String, Object> checkMap = checkinUser(str, 1, pageNo, size, token);
+                        if (!MapUtils.mapIsAnyBlank(checkMap, "result")) {
+                            Map<String, Object> resultMap = (Map) checkMap.get("result");
+                            if (!MapUtils.mapIsAnyBlank(resultMap, "page_list")) {
+                                checkDataList = (List) resultMap.get("page_list");
+                                if (checkDataList != null && checkDataList.size() > 0) {
+                                    allCheckDataList.addAll(checkDataList);
+                                    //下页有数据
+                                    if (!MapUtils.mapIsAnyBlank(resultMap, "next_cursor") && !"".equals(resultMap.get("next_cursor"))) {
+                                        pageNo = Long.parseLong(resultMap.get("next_cursor").toString());
+                                    } else {
+                                        k = false;
+                                    }
+                                } else {
+                                    k = false;
+                                }
+                            } else {
+                                k = false;
+                            }
+                        } else {
+                            k = false;
+                        }
+                    }
+                }
+                return allCheckDataList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+
+
+    /**
+     * 用户签到记录封装成实体类集合
      * @return
      */
     @Override
     public List<TSigninRecord> checkin(long  size , String token) {
         try {
             List<TSigninRecord> allCheckVoList = new ArrayList<>();
-            List<Map<String,Object>> allCheckDataList = new ArrayList<>();
-            List<Map<String,Object>> checkDataList ;
-            Set<String> allUserIdSet = commensUtil.allUserIdByAppkey(token);
-            if(allUserIdSet!=null&&allUserIdSet.size()>0){
-                //进行用户和分页批处理
-                Iterator<String> it = allUserIdSet.iterator();
-                while (it.hasNext()) {
-                    long  pageNo = 0 ;
-                    String str = it.next();
-                    boolean k = true;
-                    while (k) {
-                        //获取用户签到记录列表
-                        Map<String, Object>    checkMap = checkinUser(str,1,pageNo,size,token);
-                        if(!MapUtils.mapIsAnyBlank(checkMap,"result")) {
-                            Map<String, Object>     resultMap = (Map) checkMap.get("result");
-                            if(!MapUtils.mapIsAnyBlank(resultMap,"page_list")){
-                                checkDataList = (List) resultMap.get("page_list");
-                                if (checkDataList != null && checkDataList.size() > 0) {
-                                    allCheckDataList.addAll(checkDataList);
-                                    //下页有数据
-                                    if(!MapUtils.mapIsAnyBlank(resultMap,"next_cursor")&&!"".equals(resultMap.get("next_cursor"))) {
-                                        pageNo = Long.parseLong(resultMap.get("next_cursor").toString());
-                                    }else {
-                                        k  = false;
-                                    }
-                                }else {
-                                    k  = false;
-                                }
-                            }else{
-                                k  = false;
-                            }
-                        }else{
-                            k  = false;
-                        }
-                    }
-                }
+            List<Map<String,Object>> allCheckDataList =  checkinListByUserList(size, token);
                 //封装成实体类集合
                 if(allCheckDataList!=null&&allCheckDataList.size()>0){
                     for (int i = 0; i < allCheckDataList.size(); i++) {
@@ -160,14 +177,13 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
                         }
                         allCheckVoList.add(tsr);
                     }
+                    return allCheckVoList;
                 }
-                return allCheckVoList;
-            }
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return null;
     }
 
 

@@ -76,6 +76,11 @@ public class TSigninRule extends Model<TSigninRule> {
      */
     private Integer deleted;
 
+    /**
+     * 中心名称
+     */
+    private String center_name;
+
 
     @Override
     protected Serializable pkVal() {

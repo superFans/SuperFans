@@ -47,8 +47,8 @@ public class TSigninRecordController {
      * @return
      */
     @GetMapping("/checkin")
-    public List<TSigninRecord> checkin11() {
-        return itSigninRecordService.checkin(5, commensUtil.token(appkey,appsecret));
+    public  Map<String, Object> checkin11() {
+        return itSigninRecordService.checkinUser("",1,0,10, commensUtil.token(appkey,appsecret));
     }
     /**
      * @Title:导入分公司下的所有签到记录

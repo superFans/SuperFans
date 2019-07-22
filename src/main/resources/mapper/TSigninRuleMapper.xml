@@ -9,6 +9,7 @@
         <result column="dept_id" property="deptId" />
         <result column="center_lng" property="centerLng" />
         <result column="center_lat" property="centerLat" />
+        <result column="center_name" property="centerName" />
         <result column="distance" property="distance" />
         <result column="start_time" property="startTime" />
         <result column="finish_time" property="finishTime" />
@@ -19,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, company_id, dept_id, center_lng, center_lat, distance, start_time, finish_time, create_time, modify_time, deleted
+        id, company_id, dept_id, center_lng, center_lat, center_name, distance, start_time, finish_time, create_time, modify_time, deleted
     </sql>
 
 </mapper>
