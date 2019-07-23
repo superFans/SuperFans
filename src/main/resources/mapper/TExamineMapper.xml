@@ -8,8 +8,7 @@
         <result column="company_id" property="companyId" />
         <result column="name" property="name" />
         <result column="code" property="code" />
-        <result column="icon_url" property="iconUrl" />
-        <result column="group" property="group" />
+        <result column="examine_group" property="examineGroup" />
         <result column="create_time" property="createTime" />
         <result column="modify_time" property="modifyTime" />
         <result column="deleted" property="deleted" />
@@ -17,7 +16,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, company_id, name, code, icon_url, group, create_time, modify_time, deleted
+        id, company_id, name, code, examine_group, create_time, modify_time, deleted
     </sql>
 
 </mapper>

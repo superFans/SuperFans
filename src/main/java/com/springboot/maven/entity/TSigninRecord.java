@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
  * 签到记录
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,6 +30,16 @@ public class TSigninRecord extends Model<TSigninRecord> {
      * 员工id
      */
     private String userId;
+
+    /**
+     * 员工姓名
+     */
+    private String userName;
+
+    /**
+     * 公司id
+     */
+    private String companyId;
 
     /**
      * 图片url数组
@@ -72,9 +82,14 @@ public class TSigninRecord extends Model<TSigninRecord> {
     private String latitude;
 
     /**
-     * 状态：NEW/INVALID/VALID
+     * 状态：NEW/VALID/INVALID
      */
     private String status;
+
+    /**
+     * 是否人工确认过(0:否,1:是)
+     */
+    private Integer confirm;
 
     /**
      * 创建时间

@@ -1,7 +1,7 @@
 package  com.springboot.maven.controller;
 
 import com.springboot.maven.service.ITReportTemplateService;
-import com.springboot.maven.service.utlis.commensUtil;
+import com.springboot.maven.service.utlis.PublicMethods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,14 +37,14 @@ public class TReportTemplateController {
      */
     @GetMapping("/getReportTemplate")
     public List<Map<String, Object>> reportTemplateList() {
-        return itReportTemplateService.reportTemplateList(null, commensUtil.token(appkey,appsecret));
+        return itReportTemplateService.reportTemplateList(null, PublicMethods.token(appkey,appsecret));
     }
     /**
      * @Title:导入企业的所有模板
      */
     @GetMapping("/importReportTemplate")
     public Map<String, Object> importreportTemplate() {
-        return itReportTemplateService.importReportTemplateData(commensUtil.token(appkey,appsecret),AgentId);
+        return itReportTemplateService.importReportTemplateData(PublicMethods.token(appkey,appsecret),AgentId);
     }
 }
 

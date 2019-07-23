@@ -2,6 +2,10 @@ package  com.springboot.maven.service.impl;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
@@ -12,12 +16,16 @@ import com.springboot.maven.mapper.TSigninRecordMapper;
 import com.springboot.maven.service.ITSigninRecordService;
 import com.springboot.maven.service.utlis.MapUtils;
 import com.springboot.maven.service.utlis.UUIDS;
-import com.springboot.maven.service.utlis.commensUtil;
+import com.springboot.maven.service.utlis.PublicMethods;
 import com.taobao.api.ApiException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.From;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -84,7 +92,7 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
         try {
             List<Map<String, Object>> allCheckDataList = new ArrayList<>();
             List<Map<String, Object>> checkDataList;
-            Set<String> allUserIdSet = commensUtil.allUserIdByAppkey(token);
+            Set<String> allUserIdSet = PublicMethods.allUserIdByAppkey(token);
             if (allUserIdSet != null && allUserIdSet.size() > 0) {
                 //进行用户和分页批处理
                 Iterator<String> it = allUserIdSet.iterator();
@@ -100,6 +108,15 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
                             if (!MapUtils.mapIsAnyBlank(resultMap, "page_list")) {
                                 checkDataList = (List) resultMap.get("page_list");
                                 if (checkDataList != null && checkDataList.size() > 0) {
+                                    //在数据集中添加用户名称
+                                    Map<String, Object> userMap = PublicMethods.userinfoByUserId(str,token);
+                                    if(!MapUtils.mapIsAnyBlank(userMap,"name")){
+                                     String name = userMap.get("name").toString();
+                                        for (int i = 0; i <checkDataList.size() ; i++) {
+                                            Map<String, Object>  checkMaps = checkDataList.get(i);
+                                            checkMaps.put("user_name",name);
+                                        }
+                                    }
                                     allCheckDataList.addAll(checkDataList);
                                     //下页有数据
                                     if (!MapUtils.mapIsAnyBlank(resultMap, "next_cursor") && !"".equals(resultMap.get("next_cursor"))) {
@@ -172,6 +189,9 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
                         if(!MapUtils.mapIsAnyBlank(checkMap,"userid")){
                             tsr.setUserId(String.valueOf(checkMap.get("userid")));
                         }
+                        if(!MapUtils.mapIsAnyBlank(checkMap,"user_name")){
+                            tsr.setUserName(String.valueOf(checkMap.get("user_name")));
+                        }
                         if(!MapUtils.mapIsAnyBlank(checkMap,"visit_user")){
                             tsr.setVisitUser(String.valueOf(checkMap.get("visit_user")));
                         }
@@ -193,10 +213,11 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
      * @return
      */
     @Override
-    public  Map<String,Object> importEveryDayCheckinData( String token){
+    public  Map<String,Object> importEveryDayCheckinData( String token, String agentId){
         List<TSigninRecord> list = checkin(100, token);
         if(list!=null&&list.size()>0){
             for (TSigninRecord trt : list){
+                trt.setCompanyId(agentId);
                 int  d =  tsigninrecordmapper.insert(trt);
                 if(d>0){
                     Map<String, Object> map = new HashMap<>();
@@ -206,4 +227,99 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
         }
         return null;
     }
+
+
+    /**
+     *
+     *
+     * 公司签到记录列表
+     * @param request
+     * @return
+     */
+    @Override
+    public Map<String,Object> signinRuleListByCompany(HttpServletRequest request){
+
+        try {
+            long pages = Long.valueOf(request.getParameter("page"));
+            long capacity = Long.valueOf(request.getParameter("capacity"));
+            String company_id = request.getParameter("company_id");
+            String app_key  = request.getParameter("app_key");
+            String app_secret = request.getParameter("app_secret");
+
+            String dept_id = request.getParameter("dept_id");
+
+            String confirm = request.getParameter("confirm");
+            String status = request.getParameter("status");
+            String start_time = request.getParameter("start_time");
+            String end_time = request.getParameter("end_time");
+            String user_id = request.getParameter("user_id");
+            QueryWrapper<TSigninRecord> queryWrapper = new QueryWrapper<>();
+            Page<TSigninRecord> page = new Page<>(pages,capacity);
+            if(StringUtils.isNotEmpty(company_id)){
+                queryWrapper.lambda().eq(TSigninRecord::getCompanyId, company_id);
+            }else{
+                return  null;
+            }
+            if(StringUtils.isNotEmpty(start_time)){
+                queryWrapper.lambda().eq(TSigninRecord::getCheckinTime, start_time);
+            }
+            if(StringUtils.isNotEmpty(end_time)){
+                queryWrapper.lambda().eq(TSigninRecord::getCheckinTime, end_time);
+            }
+            if(StringUtils.isNotEmpty(status)){
+                queryWrapper.lambda().eq(TSigninRecord::getStatus, status);
+            }
+            if(StringUtils.isNotEmpty(user_id)){
+                queryWrapper.lambda().eq(TSigninRecord::getUserId, user_id);
+            }
+            if(StringUtils.isNotEmpty(confirm)){
+                queryWrapper.lambda().eq(TSigninRecord::getConfirm, confirm);
+            }
+            queryWrapper.lambda().orderByAsc(TSigninRecord::getCreateTime);
+            IPage<TSigninRecord> singRule = tsigninrecordmapper.selectPage(page, queryWrapper);
+            if(singRule==null){
+                return  null;
+            }
+            Map<String, Object> map = new HashMap<>(16);
+            map.put("data", singRule);
+            System.out.println(singRule.toString());
+            return   map;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -1,18 +1,17 @@
 package com.springboot.maven.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
-import com.springboot.maven.entity.TSigninRecord;
-import com.springboot.maven.service.ITReportRecordService;
 import com.springboot.maven.service.ITSigninRecordService;
-import com.springboot.maven.service.utlis.commensUtil;
+import com.springboot.maven.service.utlis.PublicMethods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 
@@ -30,8 +29,6 @@ public class TSigninRecordController {
 
     @Autowired
     private ITSigninRecordService itSigninRecordService;
-    @Autowired
-    ITReportRecordService itReportRecordService;
 
     private static final String appkey  = "ding9p7vzgvgrx3tvd6a";
     private static final String appsecret= "nGKknhri4XwBjcLxkZFacafx10_k67dUT6B09kJF50xLBrwb9AULlVQxcI4L0W3W";
@@ -48,15 +45,27 @@ public class TSigninRecordController {
      */
     @GetMapping("/checkin")
     public  Map<String, Object> checkin11() {
-        return itSigninRecordService.checkinUser("",1,0,10, commensUtil.token(appkey,appsecret));
+        return itSigninRecordService.checkinUser("",1,0,10, PublicMethods.token(appkey,appsecret));
     }
     /**
      * @Title:导入分公司下的所有签到记录
      */
     @GetMapping("/importSigninRecord")
     public Map<String, Object> importreportTemplate() {
-        return itSigninRecordService.importEveryDayCheckinData(commensUtil.token(appkey,appsecret));
+        return itSigninRecordService.importEveryDayCheckinData(PublicMethods.token(appkey,appsecret), AgentId);
     }
+    /**
+     *
+     *
+     * 分公司下的签到记录列表
+     * @param request
+     * @return
+     */
+    @PostMapping("/signin_rule/signin_rule_list")
+    public Map<String, Object> signinRuleListByCompany(HttpServletRequest request) {
+        return itSigninRecordService.signinRuleListByCompany(request);
+    }
+
 
 }
 

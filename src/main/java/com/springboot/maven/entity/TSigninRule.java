@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
  * 签到规则
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -47,6 +47,11 @@ public class TSigninRule extends Model<TSigninRule> {
     private String centerLat;
 
     /**
+     * 中心名称
+     */
+    private String centerName;
+
+    /**
      * 合法距离
      */
     private Integer distance;
@@ -75,11 +80,6 @@ public class TSigninRule extends Model<TSigninRule> {
      * 是否删除(0:未删,1:已删)
      */
     private Integer deleted;
-
-    /**
-     * 中心名称
-     */
-    private String center_name;
 
 
     @Override

@@ -1,26 +1,22 @@
 package  com.springboot.maven.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiReportListRequest;
 import com.dingtalk.api.request.OapiReportStatisticsRequest;
-import com.dingtalk.api.request.OapiReportTemplateListbyuseridRequest;
 import com.dingtalk.api.response.OapiReportListResponse;
 import com.dingtalk.api.response.OapiReportStatisticsResponse;
-import com.dingtalk.api.response.OapiReportTemplateListbyuseridResponse;
 import com.springboot.maven.entity.TReportRecord;
-import com.springboot.maven.entity.TReportTemplate;
 import com.springboot.maven.mapper.TReportRecordMapper;
 import com.springboot.maven.service.ITReportRecordService;
 import com.springboot.maven.service.utlis.MapUtils;
+import com.springboot.maven.service.utlis.PublicMethods;
 import com.springboot.maven.service.utlis.UUIDS;
-import com.springboot.maven.service.utlis.commensUtil;
 import com.taobao.api.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import sun.util.resources.LocaleData;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -39,8 +35,6 @@ public class TReportRecordServiceImpl extends ServiceImpl<TReportRecordMapper, T
 
     @Autowired
     TReportRecordMapper treportRecordMapper;
-    @Autowired
-    ITReportRecordService itReportRecordService;
     /**
      * @Title:获取用户日志数据
      * @param:
@@ -105,7 +99,7 @@ public class TReportRecordServiceImpl extends ServiceImpl<TReportRecordMapper, T
         try {
             List<Map<String,Object>> allCheckDataList = new ArrayList<>();
             List<Map<String,Object>> lodDataList ;
-            Set<String> allUserIdSet = commensUtil.allUserIdByAppkey(token);
+            Set<String> allUserIdSet = PublicMethods.allUserIdByAppkey(token);
             if(allUserIdSet!=null&&allUserIdSet.size()>0){
                 //进行用户和分页批处理
                 Map<String, Object> logsmap;

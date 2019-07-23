@@ -1,5 +1,6 @@
 package  com.springboot.maven.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.springboot.maven.entity.TOperationLog;
 import com.springboot.maven.mapper.TOperationLogMapper;
 import com.springboot.maven.service.ITOperationLogService;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-07-19
  */
 @Service
-public class TOperationLogServiceImpl extends ServiceImpl<TOperationLogMapper, name.dancer.entity.TOperationLog> implements ITOperationLogService {
+public class TOperationLogServiceImpl extends ServiceImpl<TOperationLogMapper, TOperationLog> implements ITOperationLogService {
 
 }

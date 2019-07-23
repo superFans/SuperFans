@@ -3,6 +3,7 @@ package com.springboot.maven.service;
 import com.springboot.maven.entity.TSigninRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -40,5 +41,14 @@ public interface ITSigninRecordService extends IService<TSigninRecord> {
      *
      * @return
      */
-    Map<String,Object> importEveryDayCheckinData(String token);
+    Map<String,Object> importEveryDayCheckinData(String token , String agentId);
+
+    /**
+     *
+     *
+     * 公司签到记录列表
+     * @param request
+     * @return
+     */
+    Map<String,Object> signinRuleListByCompany (HttpServletRequest request);
 }

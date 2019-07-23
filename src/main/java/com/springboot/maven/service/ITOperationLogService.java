@@ -1,5 +1,5 @@
 package com.springboot.maven.service;
-import name.dancer.entity.TOperationLog;
+import com.springboot.maven.entity.TOperationLog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

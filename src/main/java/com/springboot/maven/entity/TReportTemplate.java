@@ -1,6 +1,5 @@
 package com.springboot.maven.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import lombok.Data;
@@ -12,8 +11,8 @@ import lombok.experimental.Accessors;
  * 日志模板
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

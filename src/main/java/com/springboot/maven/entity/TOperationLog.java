@@ -1,4 +1,4 @@
-package name.dancer.entity;
+package com.springboot.maven.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.time.LocalDate;
@@ -12,8 +12,8 @@ import lombok.experimental.Accessors;
  * 
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

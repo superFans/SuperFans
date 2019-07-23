@@ -2,8 +2,9 @@ package  com.springboot.maven.controller;
 
 
 import com.springboot.maven.service.ITReportRecordService;
-import com.springboot.maven.service.utlis.commensUtil;
+import com.springboot.maven.service.utlis.PublicMethods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -36,7 +37,7 @@ public class TReportRecordController {
      */
     @GetMapping("/getReport")
     public List<Map<String, Object>> getAllUserReportByCompany() {
-        return itReportRecordService.getAllUserReportByCompany(commensUtil.token(appkey,appsecret));
+        return itReportRecordService.getAllUserReportByCompany(PublicMethods.token(appkey,appsecret));
     }
 
     /**
@@ -46,7 +47,7 @@ public class TReportRecordController {
      */
     @GetMapping("/importReport")
     public Map<String,Object> importEveryDayReportData() {
-        return itReportRecordService.importEveryDayReportData(commensUtil.token(appkey,appsecret));
+        return itReportRecordService.importEveryDayReportData(PublicMethods.token(appkey,appsecret));
     }
 
 

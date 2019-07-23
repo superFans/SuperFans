@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
  * 分公司
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

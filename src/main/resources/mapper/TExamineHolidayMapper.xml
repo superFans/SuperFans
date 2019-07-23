@@ -6,6 +6,8 @@
     <resultMap id="BaseResultMap" type="com.springboot.maven.entity.TExamineHoliday">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="company_id" property="companyId" />
         <result column="process_code" property="processCode" />
         <result column="process_instance_id" property="processInstanceId" />
         <result column="process_title" property="processTitle" />
@@ -27,7 +29,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, process_code, process_instance_id, process_title, process_create_time, process_finish_time, process_status, process_result, form_value_company, form_value_salary, form_value_type, form_value_start, form_value_finish, form_value_days, form_value_reason, create_time, modify_time, deleted
+        id, user_id, user_name, company_id, process_code, process_instance_id, process_title, process_create_time, process_finish_time, process_status, process_result, form_value_company, form_value_salary, form_value_type, form_value_start, form_value_finish, form_value_days, form_value_reason, create_time, modify_time, deleted
     </sql>
 
 </mapper>

@@ -1,7 +1,7 @@
 package com.springboot.maven.mapper;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.springboot.maven.entity.TSigninRecord;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**

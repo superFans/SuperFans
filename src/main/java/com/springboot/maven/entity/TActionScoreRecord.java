@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
  * 行为积分变动记录
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,6 +30,16 @@ public class TActionScoreRecord extends Model<TActionScoreRecord> {
      * 员工id
      */
     private String userId;
+
+    /**
+     * 员工姓名
+     */
+    private String userName;
+
+    /**
+     * 公司id
+     */
+    private String companyId;
 
     /**
      * 来源，行为奖罚，迟到，缺卡，等

@@ -6,9 +6,11 @@ import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiDepartmentListIdsRequest;
 import com.dingtalk.api.request.OapiGettokenRequest;
 import com.dingtalk.api.request.OapiUserGetDeptMemberRequest;
+import com.dingtalk.api.request.OapiUserGetRequest;
 import com.dingtalk.api.response.OapiDepartmentListIdsResponse;
 import com.dingtalk.api.response.OapiGettokenResponse;
 import com.dingtalk.api.response.OapiUserGetDeptMemberResponse;
+import com.dingtalk.api.response.OapiUserGetResponse;
 import com.taobao.api.ApiException;
 
 import java.text.SimpleDateFormat;
@@ -18,7 +20,7 @@ import java.util.*;
 
 
 
-public class commensUtil {
+public class PublicMethods {
 
     private static final String appkey  = "ding9p7vzgvgrx3tvd6a";
     private static final String appsecret= "nGKknhri4XwBjcLxkZFacafx10_k67dUT6B09kJF50xLBrwb9AULlVQxcI4L0W3W";
@@ -114,6 +116,27 @@ public class commensUtil {
             if(rsmap.containsKey("userIds")&&rsmap.get("userIds")!=null){
                 List<String> userList = (List) rsmap.get("userIds");
                 return userList;
+            }
+        } catch (ApiException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+    /**
+     * 获取用户信息
+     * @return
+     */
+    public static Map<String, Object> userinfoByUserId(String userId , String token) {
+        DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/user/get");
+        OapiUserGetRequest request = new OapiUserGetRequest();
+        request.setUserid(userId);
+        request.setHttpMethod("GET");
+        try {
+            OapiUserGetResponse response = client.execute(request, token);
+            Map<String, Object> rsmap = stringToMap(response.getBody());
+            if(!MapUtils.mapIsAnyBlank(rsmap,"errcode")){
+                return rsmap;
             }
         } catch (ApiException e) {
             e.printStackTrace();

@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
  * 考勤打卡记录
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -32,9 +32,24 @@ public class TClockinRecord extends Model<TClockinRecord> {
     private String userId;
 
     /**
+     * 员工姓名
+     */
+    private String userName;
+
+    /**
+     * 公司id
+     */
+    private String companyId;
+
+    /**
      * 月份 yyyy-MM格式
      */
     private String month;
+
+    /**
+     * 状态,抓取完成/未抓取完成
+     */
+    private String status;
 
     /**
      * 一个员工一个月的考勤数据的json，map结构，key:日期，value这一天的4次打卡的数组

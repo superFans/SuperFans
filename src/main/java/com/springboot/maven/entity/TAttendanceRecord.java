@@ -8,11 +8,11 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 考勤结果
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,6 +30,16 @@ public class TAttendanceRecord extends Model<TAttendanceRecord> {
      * 员工id
      */
     private Integer userId;
+
+    /**
+     * 员工姓名
+     */
+    private String userName;
+
+    /**
+     * 公司id
+     */
+    private String companyId;
 
     /**
      * 月份yyyy-MM

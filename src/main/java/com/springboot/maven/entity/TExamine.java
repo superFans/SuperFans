@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
  * 审批表单
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -42,14 +42,9 @@ public class TExamine extends Model<TExamine> {
     private String code;
 
     /**
-     * 审批图标
-     */
-    private String iconUrl;
-
-    /**
      * 各个公司的同一种审批表单，比如"休假申请"group是相同的
      */
-    private String group;
+    private String examineGroup;
 
     /**
      * 创建时间

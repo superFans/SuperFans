@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
  * 岗位奖罚
  * </p>
  *
- * @author dancer
- * @since 2019-07-19
+ * @author fans
+ * @since 2019-07-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,6 +30,16 @@ public class TExaminePosition extends Model<TExaminePosition> {
      * 员工id
      */
     private String userId;
+
+    /**
+     * 员工姓名
+     */
+    private String userName;
+
+    /**
+     * 公司id
+     */
+    private String companyId;
 
     /**
      * 审批模板标识

@@ -6,6 +6,8 @@
     <resultMap id="BaseResultMap" type="com.springboot.maven.entity.TSigninRecord">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="company_id" property="companyId" />
         <result column="image_list" property="imageList" />
         <result column="place" property="place" />
         <result column="detail_place" property="detailPlace" />
@@ -15,6 +17,7 @@
         <result column="longitude" property="longitude" />
         <result column="latitude" property="latitude" />
         <result column="status" property="status" />
+        <result column="confirm" property="confirm" />
         <result column="create_time" property="createTime" />
         <result column="modify_time" property="modifyTime" />
         <result column="deleted" property="deleted" />
@@ -22,7 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, image_list, place, detail_place, remark, checkin_time, visit_user, longitude, latitude, status, create_time, modify_time, deleted
+        id, user_id, user_name, company_id, image_list, place, detail_place, remark, checkin_time, visit_user, longitude, latitude, status, confirm, create_time, modify_time, deleted
     </sql>
 
 </mapper>

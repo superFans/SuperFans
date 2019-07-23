@@ -4,6 +4,7 @@ import com.springboot.maven.entity.TSigninRule;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -19,18 +20,44 @@ public interface ITSigninRuleService extends IService<TSigninRule> {
      *
      *
      * 新增签到规则
-     * @param map
+     * @param req
      * @return
      */
-    Map<String,Object> insertSingRule (Map<String,Object> map);
+    Map<String,Object> insertSingRule (HttpServletRequest req);
 
     /**
      *
      *
-     * 删除签到规则
+     * 删除签到规则（可以删除多条）
      * @param id
      * @return
      */
     Map<String,Object> deleteSingRule (String id);
 
-}
+    /**
+     *
+     *
+     * 修改签到规则
+     * @param req
+     * @return
+     */
+    Map<String,Object> updateSingRule (HttpServletRequest req);
+
+
+    /**
+     *
+     *
+     * 部门签到规则列表
+     * @param id
+     * @return
+     */
+    Map<String,Object> signinRuleListByDeptId (String id);
+
+
+
+
+
+
+
+
+    }

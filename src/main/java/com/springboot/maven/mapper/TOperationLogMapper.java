@@ -1,7 +1,8 @@
 package com.springboot.maven.mapper;
 
-import name.dancer.entity.TOperationLog;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.springboot.maven.entity.TOperationLog;
 import org.springframework.stereotype.Repository;
 
 /**

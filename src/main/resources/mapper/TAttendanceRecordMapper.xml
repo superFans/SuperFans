@@ -6,6 +6,8 @@
     <resultMap id="BaseResultMap" type="com.springboot.maven.entity.TAttendanceRecord">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="company_id" property="companyId" />
         <result column="month" property="month" />
         <result column="not_signed_count" property="notSignedCount" />
         <result column="early_count" property="earlyCount" />
@@ -30,7 +32,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, month, not_signed_count, early_count, late_count, absenteeism_days, salary_days, attendance_days, business_travel_days, holiday_days, sick_leave_days, personal_leave_days, childbirth_leave_days, full_attendance, score, report_low_quality_count, user_confirm, user_confirm_time, create_time, modify_time, deleted
+        id, user_id, user_name, company_id, month, not_signed_count, early_count, late_count, absenteeism_days, salary_days, attendance_days, business_travel_days, holiday_days, sick_leave_days, personal_leave_days, childbirth_leave_days, full_attendance, score, report_low_quality_count, user_confirm, user_confirm_time, create_time, modify_time, deleted
     </sql>
 
 </mapper>

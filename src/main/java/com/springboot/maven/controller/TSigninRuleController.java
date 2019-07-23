@@ -1,16 +1,13 @@
 package  com.springboot.maven.controller;
 
 
-import com.aliyun.api.internal.parser.json.ObjectJsonParser;
 import com.springboot.maven.service.ITSigninRuleService;
-import com.springboot.maven.service.utlis.commensUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
 import java.util.Map;
 
 /**
@@ -22,7 +19,7 @@ import java.util.Map;
  * @since 2019-07-19
  */
 @Controller
-@RequestMapping("/tSigninRule")
+@RequestMapping("/api/v1")
 public class TSigninRuleController {
 
     @Autowired
@@ -33,12 +30,12 @@ public class TSigninRuleController {
      *
      *
      * 新增签到规则
-     * @param map
+     * @param req
      * @return
      */
-    @PostMapping("/create_sing_rule")
-    public Map<String, Object> insertSingRule(@RequestBody Map<String, Object> map) {
-        return itSigninRuleService.insertSingRule(map);
+    @PostMapping("/signin_rule/signin_rule_add")
+    public Map<String, Object> insertSingRule(HttpServletRequest req) {
+        return itSigninRuleService.insertSingRule(req);
     }
     /**
      *
@@ -47,11 +44,21 @@ public class TSigninRuleController {
      * @param request
      * @return
      */
-    @GetMapping("/delete_sing_rule{id}")
+    @GetMapping("/signin_rule/signin_rule_delete/{id}")
     public Map<String, Object> deleteSingRule(HttpServletRequest request) {
-        return itSigninRuleService.deleteSingRule(request.getAttribute("id").toString());
+        return itSigninRuleService.deleteSingRule(request.getParameter("id"));
     }
-
+    /**
+     *
+     *
+     * 部门签到规则列表
+     * @param request
+     * @return
+     */
+    @GetMapping("/signin_rule/signin_rule_modify")
+    public Map<String, Object> signinRuleListByDeptId(HttpServletRequest request) {
+        return itSigninRuleService.signinRuleListByDeptId(request.getParameter("dept_id"));
+    }
 
 
 

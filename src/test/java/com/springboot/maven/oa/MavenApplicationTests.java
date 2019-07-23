@@ -1,13 +1,12 @@
 package com.springboot.maven.oa;
 
 import com.springboot.maven.service.ITReportRecordService;
-import com.springboot.maven.service.utlis.commensUtil;
+import com.springboot.maven.service.utlis.PublicMethods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class MavenApplicationTests {
 	 */
 	@Test
 	public List<Map<String, Object>> getAllUserReportByCompany() {
-		return itReportRecordService.getAllUserReportByCompany(commensUtil.token(appkey,appsecret));
+		return itReportRecordService.getAllUserReportByCompany(PublicMethods.token(appkey,appsecret));
 	}
 
 	/**
@@ -40,7 +39,7 @@ public class MavenApplicationTests {
 	 */
 	@Test
 	public Map<String,Object> importEveryDayReportData() {
-		return itReportRecordService.importEveryDayReportData(commensUtil.token(appkey,appsecret));
+		return itReportRecordService.importEveryDayReportData(PublicMethods.token(appkey,appsecret));
 	}
 	@Test
 	public void contextLoads() {
