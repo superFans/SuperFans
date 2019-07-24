@@ -277,6 +277,7 @@ public class TSigninRecordServiceImpl extends ServiceImpl<TSigninRecordMapper, T
             }
             queryWrapper.lambda().orderByAsc(TSigninRecord::getCreateTime);
             IPage<TSigninRecord> singRule = tsigninrecordmapper.selectPage(page, queryWrapper);
+            //
             if(singRule==null){
                 return  null;
             }
